@@ -45,7 +45,7 @@ async function callLLM() {
             'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-            model: 'gemini-2.0-flash-exp:free',
+            model: 'mistralai/mistral-small-3.2-24b-instruct:free',
             messages,
             tools,
             tool_choice: 'auto'
