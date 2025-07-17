@@ -4,6 +4,7 @@ import { nameGeneratorTool, generate_name } from '../tools/nameGenerator.js';
 const chatEl = document.getElementById('chat');
 const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
+const modelSelect = document.getElementById('model-select');
 
 const tools = [diceRollerTool, nameGeneratorTool];
 const toolFunctions = {
@@ -45,7 +46,7 @@ async function callLLM() {
             'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-            model: 'mistralai/mistral-small-3.2-24b-instruct:free',
+            model: modelSelect.value,
             messages,
             tools,
             tool_choice: 'auto'
