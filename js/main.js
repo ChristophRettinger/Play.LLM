@@ -5,7 +5,7 @@ const chatEl = document.getElementById('chat');
 const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
 
-const tools = [diceRollerTool, nameGeneratorTool];
+const functions = [diceRollerTool, nameGeneratorTool];
 const toolFunctions = {
     roll_dice,
     generate_name
@@ -47,8 +47,8 @@ async function callLLM() {
         body: JSON.stringify({
             model: 'mistralai/mistral-small-3.2-24b-instruct:free',
             messages,
-            tools,
-            tool_choice: 'auto'
+            functions,
+            function_call: 'auto'
         })
     });
 
@@ -64,20 +64,18 @@ async function callLLM() {
     const choice = data.choices[0];
     const msg = choice.message;
 
-    if (choice.finish_reason === 'tool_calls') {
-        for (const call of msg.tool_calls) {
-            const func = toolFunctions[call.function.name];
-            if (func) {
-                const args = JSON.parse(call.function.arguments || '{}');
-                const result = func(args);
-                messages.push({
-                    role: 'tool',
-                    tool_call_id: call.id,
-                    name: call.function.name,
-                    content: result
-                });
-                appendMessage('tool', result);
-            }
+    if (msg.function_call) {
+        const call = msg.function_call;
+        const func = toolFunctions[call.name];
+        if (func) {
+            const args = JSON.parse(call.arguments || '{}');
+            const result = func(args);
+            messages.push({
+                role: 'function',
+                name: call.name,
+                content: result
+            });
+            appendMessage('function', result);
         }
         await callLLM();
         return;

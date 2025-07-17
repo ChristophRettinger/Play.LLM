@@ -1,18 +1,15 @@
 export const diceRollerTool = {
-    type: "function",
-    function: {
-        name: "roll_dice",
-        description: "Rolls dice using notation like '1d6' or '2d20+5'",
-        parameters: {
-            type: "object",
-            properties: {
-                expression: {
-                    type: "string",
-                    description: "Dice expression"
-                }
-            },
-            required: ["expression"]
-        }
+    name: "roll_dice",
+    description: "Rolls dice using notation like '1d6' or '2d20+5'",
+    parameters: {
+        type: "object",
+        properties: {
+            expression: {
+                type: "string",
+                description: "Dice expression"
+            }
+        },
+        required: ["expression"]
     }
 };
 

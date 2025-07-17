@@ -4,7 +4,7 @@ This repository contains a simple single page application for chatting with an L
 
 ## Usage
 
-Open `index.html` in a browser. On first use you will be prompted for your OpenRouter API key, which is stored in local storage. The chat uses the `gemini-2.0-flash-exp:free` model.
+Open `index.html` in a browser. On first use you will be prompted for your OpenRouter API key, which is stored in local storage. The sample page currently requests the `mistralai/mistral-small-3.2-24b-instruct:free` model by default (see `js/main.js`).
 
 The application includes two example tools available to the LLM:
 
@@ -12,3 +12,13 @@ The application includes two example tools available to the LLM:
 - **Name Generator** – generate random fantasy names.
 
 Messages support Markdown rendering.
+
+## Model compatibility
+
+Not every model exposed by OpenRouter uses the same interface for function
+calling. The `mistralai/mistral-small-3.2-24b-instruct:free` model supports
+tool calls but expects the older `functions`/`function_call` parameters from the
+OpenAI API. Other models (such as `gemini-2.0-flash-exp:free`) use the newer
+`tools` API. If you encounter server errors when a tool call is attempted,
+ensure the request matches the interface expected by the selected model and
+adjust `js/main.js` accordingly.

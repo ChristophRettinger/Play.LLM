@@ -6,18 +6,15 @@ const names = [
 ];
 
 export const nameGeneratorTool = {
-    type: "function",
-    function: {
-        name: "generate_name",
-        description: "Generates random fantasy names",
-        parameters: {
-            type: "object",
-            properties: {
-                count: {
-                    type: "integer",
-                    description: "Number of names to generate",
-                    default: 1
-                }
+    name: "generate_name",
+    description: "Generates random fantasy names",
+    parameters: {
+        type: "object",
+        properties: {
+            count: {
+                type: "integer",
+                description: "Number of names to generate",
+                default: 1
             }
         }
     }
