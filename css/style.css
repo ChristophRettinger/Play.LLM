@@ -1,0 +1,15 @@
+body {
+    background-color: #f8f9fa;
+}
+
+#chat {
+    white-space: pre-wrap;
+}
+
+.message.user {
+    text-align: right;
+}
+
+.message.assistant {
+    text-align: left;
+}
