@@ -57,6 +57,10 @@ async function callLLM() {
         return;
     }
     const data = await res.json();
+    if (data.error) {
+        appendMessage('assistant', `Error: ${data.error.message || data.error}`);
+        return;
+    }
     const choice = data.choices[0];
     const msg = choice.message;
 
