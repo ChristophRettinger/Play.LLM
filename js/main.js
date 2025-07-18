@@ -6,7 +6,11 @@ const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
 const modelSelect = document.getElementById('model-select');
 
-const functions = [diceRollerTool, nameGeneratorTool];
+const tools = [
+    { type: 'function', function: diceRollerTool },
+    { type: 'function', function: nameGeneratorTool }
+];
+
 const toolFunctions = {
     roll_dice,
     generate_name
@@ -22,34 +26,43 @@ function appendMessage(role, content) {
     chatEl.scrollTop = chatEl.scrollHeight;
 }
 
-function getApiKey() {
-    let key = localStorage.getItem('openrouter_api_key');
+function getAzureConfig() {
+    let key = localStorage.getItem('azure_api_key');
     if (!key) {
-        key = prompt('Enter your OpenRouter API key');
+        key = prompt('Enter your Azure OpenAI API key');
         if (key) {
-            localStorage.setItem('openrouter_api_key', key);
+            localStorage.setItem('azure_api_key', key);
         }
     }
-    return key;
+    let resource = localStorage.getItem('azure_resource');
+    if (!resource) {
+        resource = prompt('Enter your Azure OpenAI resource name');
+        if (resource) {
+            localStorage.setItem('azure_resource', resource);
+        }
+    }
+    return { key, resource };
 }
 
 async function callLLM() {
-    const apiKey = getApiKey();
-    if (!apiKey) {
-        alert('API key required');
+    const { key, resource } = getAzureConfig();
+    if (!key || !resource) {
+        alert('API key and resource are required');
         return;
     }
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const deployment = modelSelect.value;
+    const url = `https://${resource}.openai.azure.com/openai/deployments/${deployment}/chat/completions?api-version=2024-05-01`;
+
+    const res = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
+            'api-key': key
         },
         body: JSON.stringify({
-            model: modelSelect.value,
             messages,
-            functions,
-            function_call: 'auto'
+            tools,
+            tool_choice: 'auto'
         })
     });
 
@@ -57,26 +70,29 @@ async function callLLM() {
         appendMessage('assistant', `Error: ${res.status}`);
         return;
     }
+
     const data = await res.json();
     if (data.error) {
         appendMessage('assistant', `Error: ${data.error.message || data.error}`);
         return;
     }
+
     const choice = data.choices[0];
     const msg = choice.message;
 
-    if (msg.function_call) {
-        const call = msg.function_call;
-        const func = toolFunctions[call.name];
-        if (func) {
-            const args = JSON.parse(call.arguments || '{}');
-            const result = func(args);
-            messages.push({
-                role: 'function',
-                name: call.name,
-                content: result
-            });
-            appendMessage('function', result);
+    if (msg.tool_calls) {
+        for (const call of msg.tool_calls) {
+            const func = toolFunctions[call.function.name];
+            if (func) {
+                const args = JSON.parse(call.function.arguments || '{}');
+                const result = func(args);
+                messages.push({
+                    role: 'tool',
+                    tool_call_id: call.id,
+                    content: result
+                });
+                appendMessage('function', result);
+            }
         }
         await callLLM();
         return;
