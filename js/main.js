@@ -51,7 +51,7 @@ async function callLLM() {
         return;
     }
     const deployment = modelSelect.value;
-    const url = `https://${resource}.openai.azure.com/openai/deployments/${deployment}/chat/completions?api-version=2024-05-01`;
+    const url = `https://${resource}.openai.azure.com/openai/deployments/${deployment}/chat/completions?api-version=2025-01-01-preview`;
 
     const res = await fetch(url, {
         method: 'POST',
