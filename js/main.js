@@ -1,5 +1,6 @@
 import { diceRollerTool, roll_dice } from '../tools/diceRoller.js';
 import { nameGeneratorTool, generate_name } from '../tools/nameGenerator.js';
+import { skillCheckTool, skill_check } from '../tools/skillCheck.js';
 
 const chatEl = document.getElementById('chat');
 const form = document.getElementById('chat-form');
@@ -8,12 +9,14 @@ const modelSelect = document.getElementById('model-select');
 
 const tools = [
     { type: 'function', function: diceRollerTool },
-    { type: 'function', function: nameGeneratorTool }
+    { type: 'function', function: nameGeneratorTool },
+    { type: 'function', function: skillCheckTool }
 ];
 
 const toolFunctions = {
     roll_dice,
-    generate_name
+    generate_name,
+    skill_check
 };
 
 let messages = [];
