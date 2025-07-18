@@ -80,6 +80,8 @@ async function callLLM() {
     const choice = data.choices[0];
     const msg = choice.message;
 
+    messages.push(msg);
+
     if (msg.tool_calls) {
         for (const call of msg.tool_calls) {
             const func = toolFunctions[call.function.name];
@@ -101,7 +103,6 @@ async function callLLM() {
     if (msg.content) {
         appendMessage('assistant', msg.content);
     }
-    messages.push(msg);
 }
 
 form.addEventListener('submit', async (e) => {
