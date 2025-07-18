@@ -4,12 +4,29 @@ body {
 
 #chat {
     white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    max-width: 80%;
 }
 
 .message.user {
-    text-align: right;
+    align-self: flex-end;
+    background-color: #cfe2ff;
 }
 
 .message.assistant {
-    text-align: left;
+    align-self: flex-start;
+    background-color: #e9ecef;
+}
+
+.message.function {
+    align-self: flex-start;
+    background-color: #fff3cd;
+    font-style: italic;
 }
