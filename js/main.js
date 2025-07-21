@@ -1,6 +1,6 @@
 import { diceRollerTool, roll_dice } from '../tools/diceRoller.js';
 import { nameGeneratorTool, generate_name } from '../tools/nameGenerator.js';
-import { skillCheckTool, skill_check } from '../tools/skillCheck.js';
+import { skillCheckTool, skill_check, damageCheckTool, damage_check } from '../tools/skillCheck.js';
 import {
     createCharacterTool,
     getCharacterTool,
@@ -21,6 +21,7 @@ const tools = [
     { type: 'function', function: diceRollerTool },
     { type: 'function', function: nameGeneratorTool },
     { type: 'function', function: skillCheckTool },
+    { type: 'function', function: damageCheckTool },
     { type: 'function', function: createCharacterTool },
     { type: 'function', function: getCharacterTool },
     { type: 'function', function: modifyCharacterTool },
@@ -31,6 +32,7 @@ const toolFunctions = {
     roll_dice,
     generate_name,
     skill_check,
+    damage_check,
     create_character,
     get_character,
     modify_character,
