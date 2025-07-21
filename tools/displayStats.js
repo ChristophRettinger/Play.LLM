@@ -22,7 +22,7 @@ function loadCharacters() {
 
 export function display_stats({ name }) {
     const chars = loadCharacters();
-    const char = chars[name];
+    const char = chars[name.toLowerCase()];
     if (!char) return `Character ${name} not found.`;
 
     let md = `**${char.name}**`;

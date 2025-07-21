@@ -5,9 +5,11 @@ import {
     createCharacterTool,
     getCharacterTool,
     modifyCharacterTool,
+    listCharactersTool,
     create_character,
     get_character,
-    modify_character
+    modify_character,
+    list_characters
 } from '../tools/characterManager.js';
 import { displayStatsTool, display_stats } from '../tools/displayStats.js';
 
@@ -15,6 +17,7 @@ const chatEl = document.getElementById('chat');
 const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
 const clearBtn = document.getElementById('clear-data');
+const toolToggle = document.getElementById('show-tools');
 const deployment = 'MA01ChatGPT-gpt-4-32k';
 
 const tools = [
@@ -24,6 +27,7 @@ const tools = [
     { type: 'function', function: createCharacterTool },
     { type: 'function', function: getCharacterTool },
     { type: 'function', function: modifyCharacterTool },
+    { type: 'function', function: listCharactersTool },
     { type: 'function', function: displayStatsTool }
 ];
 
@@ -34,16 +38,28 @@ const toolFunctions = {
     create_character,
     get_character,
     modify_character,
+    list_characters,
     display_stats
 };
 
 let messages = [];
+let showTools = false;
+
+toolToggle.addEventListener('change', () => {
+    showTools = toolToggle.checked;
+    document.querySelectorAll('.message.function, .message.stats').forEach(el => {
+        el.style.display = showTools ? '' : 'none';
+    });
+});
 
 function appendMessage(role, content) {
     const div = document.createElement('div');
     div.className = `message ${role} mb-2`;
     div.innerHTML = marked.parse(content);
     chatEl.appendChild(div);
+    if ((role === 'function' || role === 'stats') && !showTools) {
+        div.style.display = 'none';
+    }
     chatEl.scrollTop = chatEl.scrollHeight;
 }
 
