@@ -11,12 +11,9 @@
     <div class="container my-3 flex-grow-1 d-flex flex-column" id="app">
         <div id="chat" class="border rounded p-3 mb-3 flex-grow-1 overflow-auto bg-light"></div>
         <form id="chat-form" class="d-flex">
-            <select id="model-select" class="form-select me-2">
-                <option value="MA01ChatGPT-gpt-4-32k" selected>GPT-4o</option>
-                <option value="o3-mini">O3 Mini</option>
-            </select>
             <input type="text" id="user-input" class="form-control me-2" placeholder="Type your message..." autocomplete="off">
-            <button class="btn btn-primary" type="submit">Send</button>
+            <button class="btn btn-primary me-2" type="submit">Send</button>
+            <button id="clear-data" class="btn btn-danger" type="button">Clear Data</button>
         </form>
     </div>
 

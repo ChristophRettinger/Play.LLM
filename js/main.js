@@ -13,7 +13,8 @@ import {
 const chatEl = document.getElementById('chat');
 const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
-const modelSelect = document.getElementById('model-select');
+const clearBtn = document.getElementById('clear-data');
+const deployment = 'MA01ChatGPT-gpt-4-32k';
 
 const tools = [
     { type: 'function', function: diceRollerTool },
@@ -67,7 +68,6 @@ async function callLLM() {
         alert('API key and resource are required');
         return;
     }
-    const deployment = modelSelect.value;
     const url = `https://${resource}.openai.azure.com/openai/deployments/${deployment}/chat/completions?api-version=2025-01-01-preview`;
 
     const res = await fetch(url, {
@@ -130,4 +130,16 @@ form.addEventListener('submit', async (e) => {
     messages.push({ role: 'user', content: text });
     input.value = '';
     await callLLM();
+});
+
+clearBtn.addEventListener('click', () => {
+    const keep = ['azure_api_key', 'azure_resource'];
+    const toRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (!keep.includes(k)) toRemove.push(k);
+    }
+    toRemove.forEach(k => localStorage.removeItem(k));
+    messages = [];
+    chatEl.innerHTML = '';
 });
