@@ -12,6 +12,7 @@ The application includes several example tools available to the LLM:
 - **Name Generator** – generate random fantasy names.
 - **Skill Check** – roll 2d12 plus a skill bonus to beat a difficulty.
 - **Character Manager** – create, retrieve and modify RPG characters stored in local storage.
+- **List Characters** – view existing characters filtered by text.
 
 Messages support Markdown rendering.
 
