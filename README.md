@@ -4,7 +4,7 @@ This repository contains a simple single page application for chatting with an L
 
 ## Usage
 
-Open `index.html` in a browser. On first use you will be prompted for your Azure OpenAI API key and resource name, which are stored in local storage. A dropdown allows selecting the deployment to use. The default deployment is `4o` and you can also choose `o3-mini`.
+Open `index.html` in a browser. On first use you will be prompted for your Azure OpenAI API key and resource name, which are stored in local storage. The deployment is fixed to the GPT-4o model. A **Clear Data** button lets you wipe stored chat history and character data while keeping your API settings.
 
 The application includes several example tools available to the LLM:
 
