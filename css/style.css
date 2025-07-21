@@ -51,6 +51,12 @@ body {
     font-style: italic;
 }
 
+.message.stats {
+    align-self: flex-start;
+    background-color: #d1e7dd;
+    border: 1px solid #badbcc;
+}
+
 .message > :last-child {
     margin-bottom: 0;
 }
