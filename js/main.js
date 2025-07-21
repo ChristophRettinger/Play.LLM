@@ -9,6 +9,7 @@ import {
     get_character,
     modify_character
 } from '../tools/characterManager.js';
+import { displayStatsTool, display_stats } from '../tools/displayStats.js';
 
 const chatEl = document.getElementById('chat');
 const form = document.getElementById('chat-form');
@@ -22,7 +23,8 @@ const tools = [
     { type: 'function', function: skillCheckTool },
     { type: 'function', function: createCharacterTool },
     { type: 'function', function: getCharacterTool },
-    { type: 'function', function: modifyCharacterTool }
+    { type: 'function', function: modifyCharacterTool },
+    { type: 'function', function: displayStatsTool }
 ];
 
 const toolFunctions = {
@@ -31,7 +33,8 @@ const toolFunctions = {
     skill_check,
     create_character,
     get_character,
-    modify_character
+    modify_character,
+    display_stats
 };
 
 let messages = [];
@@ -110,7 +113,8 @@ async function callLLM() {
                     tool_call_id: call.id,
                     content: result
                 });
-                appendMessage('function', result);
+                const role = call.function.name === 'display_stats' ? 'stats' : 'function';
+                appendMessage(role, result);
             }
         }
         await callLLM();
