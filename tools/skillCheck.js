@@ -13,18 +13,22 @@ export const skillCheckTool = {
             skill: {
                 type: "integer",
                 description: "Player's skill bonus"
+            },
+            difficultyReason: {
+                type: "string",
+                description: "Reason for choosing this difficulty"
             }
         },
-        required: ["difficulty", "skill"]
+        required: ["difficulty", "skill", "difficultyReason"]
     }
 };
 
-export function skill_check({ difficulty, skill }) {
+export function skill_check({ difficulty, skill, difficultyReason }) {
     const roll1 = Math.floor(Math.random() * 12) + 1;
     const roll2 = Math.floor(Math.random() * 12) + 1;
     const total = roll1 + roll2 + skill;
     const success = total >= difficulty;
-    return `Rolled 2d12 (${roll1} + ${roll2}) + ${skill} = ${total}. ${success ? 'Success' : 'Failure'} against difficulty ${difficulty}.`;
+    return `Rolled 2d12 (${roll1} + ${roll2}) + ${skill} = ${total}. ${success ? 'Success' : 'Failure'} against difficulty ${difficulty}. Reason: ${difficultyReason}`;
 }
 
 export const damageCheckTool = {
@@ -41,21 +45,25 @@ export const damageCheckTool = {
                 type: "integer",
                 description: "Player's skill bonus"
             },
+            difficultyReason: {
+                type: "string",
+                description: "Reason for choosing this difficulty"
+            },
             damage: {
                 type: "string",
                 description: "Dice expression for damage if the check succeeds"
             }
         },
-        required: ["difficulty", "skill", "damage"]
+        required: ["difficulty", "skill", "damage", "difficultyReason"]
     }
 };
 
-export function damage_check({ difficulty, skill, damage }) {
+export function damage_check({ difficulty, skill, damage, difficultyReason }) {
     const roll1 = Math.floor(Math.random() * 12) + 1;
     const roll2 = Math.floor(Math.random() * 12) + 1;
     const total = roll1 + roll2 + skill;
     const success = total >= difficulty;
-    let result = `Rolled 2d12 (${roll1} + ${roll2}) + ${skill} = ${total}. ${success ? 'Success' : 'Failure'} against difficulty ${difficulty}.`;
+    let result = `Rolled 2d12 (${roll1} + ${roll2}) + ${skill} = ${total}. ${success ? 'Success' : 'Failure'} against difficulty ${difficulty}. Reason: ${difficultyReason}`;
     if (success) {
         result += ' ' + roll_dice({ expression: damage });
     }
