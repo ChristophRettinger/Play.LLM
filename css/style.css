@@ -28,6 +28,19 @@ body {
     padding-top: 0.5rem;
 }
 
+#character-list {
+    overflow-y: auto;
+}
+
+.character-entry {
+    position: relative;
+}
+.character-entry button.delete-character {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .message {
     padding: 0.5rem 0.75rem;
     border-radius: 0.5rem;
