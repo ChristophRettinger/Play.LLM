@@ -18,6 +18,7 @@ const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
 const clearBtn = document.getElementById('clear-data');
 const toolToggle = document.getElementById('show-tools');
+const characterListEl = document.getElementById('character-list');
 const deployment = 'MA01ChatGPT-gpt-4-32k';
 
 const tools = [
@@ -46,6 +47,30 @@ const toolFunctions = {
 
 let messages = [];
 let showTools = false;
+
+function updateCharacterList() {
+    const chars = JSON.parse(localStorage.getItem('rpg_characters') || '{}');
+    characterListEl.innerHTML = '';
+    Object.values(chars).forEach(char => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'character-entry mb-3 position-relative';
+        const md = display_stats({ name: char.name });
+        wrapper.innerHTML = marked.parse(md);
+        const del = document.createElement('button');
+        del.textContent = 'Delete';
+        del.className = 'btn btn-sm btn-danger delete-character';
+        del.addEventListener('click', () => {
+            const all = JSON.parse(localStorage.getItem('rpg_characters') || '{}');
+            delete all[char.name.toLowerCase()];
+            localStorage.setItem('rpg_characters', JSON.stringify(all));
+            updateCharacterList();
+        });
+        wrapper.appendChild(del);
+        characterListEl.appendChild(wrapper);
+    });
+}
+
+updateCharacterList();
 
 toolToggle.addEventListener('change', () => {
     showTools = toolToggle.checked;
@@ -131,8 +156,13 @@ async function callLLM() {
                     tool_call_id: call.id,
                     content: result
                 });
-                const role = call.function.name === 'display_stats' ? 'stats' : 'function';
-                appendMessage(role, result);
+                if (['create_character', 'modify_character', 'display_stats'].includes(call.function.name)) {
+                    updateCharacterList();
+                }
+                if (call.function.name !== 'display_stats') {
+                    const role = 'function';
+                    appendMessage(role, result);
+                }
             }
         }
         await callLLM();
@@ -164,4 +194,5 @@ clearBtn.addEventListener('click', () => {
     toRemove.forEach(k => localStorage.removeItem(k));
     messages = [];
     chatEl.innerHTML = '';
+    updateCharacterList();
 });
