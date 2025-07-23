@@ -10,8 +10,8 @@ The application includes several example tools available to the LLM:
 
 - **Dice Roller** – roll dice using expressions like `2d6+3` or combined sets such as `2d6+1d4`.
 - **Name Generator** – generate random fantasy names.
-- **Skill Check** – roll 2d12 plus a skill bonus to beat a difficulty.
-- **Damage Check** – perform a skill check and roll damage dice on success.
+- **Skill Check** – roll 2d12 plus a skill bonus to beat a difficulty. Include the skill name and a reason for that difficulty.
+- **Damage Check** – perform a skill check and roll damage dice on success. Also requires the skill name and a reason for that difficulty.
 - **Character Manager** – create, retrieve and modify RPG characters stored in local storage.
 - **List Characters** – view existing characters filtered by text.
 
