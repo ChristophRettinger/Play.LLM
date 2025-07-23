@@ -45,8 +45,12 @@ body {
     right: 0.25rem;
 }
 
-.character-entry .stats-table {
+.character-entry .stats-grid {
     font-size: 0.875rem;
+}
+
+.character-entry .stat-item {
+    padding: 0.25rem 0.5rem;
 }
 
 .message {
