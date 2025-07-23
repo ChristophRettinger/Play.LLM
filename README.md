@@ -8,7 +8,7 @@ Open `index.html` in a browser. On first use you will be prompted for your Azure
 
 The application includes several example tools available to the LLM:
 
-- **Dice Roller** – roll dice using expressions like `2d6+3`.
+- **Dice Roller** – roll dice using expressions like `2d6+3` or combined sets such as `2d6+1d4`.
 - **Name Generator** – generate random fantasy names.
 - **Skill Check** – roll 2d12 plus a skill bonus to beat a difficulty.
 - **Damage Check** – perform a skill check and roll damage dice on success.
