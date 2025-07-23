@@ -45,15 +45,15 @@ export function display_stats({ name }) {
     if (char.description) {
         html += `<div class="text-muted small">${char.description}</div>`;
     }
-    html += '<table class="table table-sm stats-table mb-1"><tbody>';
+    html += '<div class="row row-cols-2 row-cols-sm-3 g-1 stats-grid mb-1">';
     if (char.stats) {
         for (const [k, v] of Object.entries(char.stats)) {
             const label = k.replace(/_/g, ' ');
             const short = abbr[k] || label;
-            html += `<tr><th class="py-1 px-2"><abbr title="${label}">${short}</abbr></th><td class="py-1 px-2 text-end">${v}</td></tr>`;
+            html += `<div class="col d-flex justify-content-between stat-item"><abbr title="${label}">${short}</abbr><span>${v}</span></div>`;
         }
     }
-    html += '</tbody></table>';
+    html += '</div>';
     html += `<div class="small mb-1">HP <abbr title="Physical">P</abbr>: ${char.current_physical_hp}/${char.max_physical_hp} | HP <abbr title="Mental">M</abbr>: ${char.current_mental_hp}/${char.max_mental_hp}</div>`;
 
     if (char.aspects && char.aspects.length) {
